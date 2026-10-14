@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+<form method="GET" action="{{ url_for('index') }}" onsubmit="tinymce.triggerSave();">
+    <input type="text" name="q" class="search-bar" placeholder="Pesquisar soluções ou tags..." value="{{ busca }}">
+</form>
+
+<div class="grid">
+    {% for nota in notas %}
+    <div class="card">
+        <span class="tag">{{ nota.tag }}</span>
+        <h3 style="margin: 0.5rem 0;"><a href="{{ url_for('ver_nota', id=nota.id) }}" style="text-decoration: none; color: inherit;">{{ nota.titulo }}</a></h3>
+        <p style="color: var(--text-light); font-size: 0.9rem;">{{ nota.blocos|length }} passo(s) registrado(s)</p>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

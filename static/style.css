@@ -1,0 +1,51 @@
+:root {
+    --primary: #2563eb;
+    --bg: #f8fafc;
+    --card-bg: #ffffff;
+    --text: #1e293b;
+    --text-light: #64748b;
+    --border: #e2e8f0;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
+body { background-color: var(--bg); color: var(--text); line-height: 1.6; }
+.navbar { background: var(--primary); padding: 1rem 2rem; color: white; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+.navbar a { color: white; text-decoration: none; margin-left: 1rem; font-weight: 500; }
+.container { max-width: 1000px; margin: 2rem auto; padding: 0 1rem; }
+.search-bar { width: 100%; padding: 0.8rem; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 2rem; font-size: 1rem; }
+.btn { background: var(--primary); color: white; border: none; padding: 0.6rem 1.2rem; border-radius: 6px; cursor: pointer; text-decoration: none; display: inline-block; }
+.btn-danger { background: #ef4444; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; }
+.card { background: var(--card-bg); padding: 1.5rem; border-radius: 12px; border: 1px solid var(--border); box-shadow: 0 1px 3px rgba(0,0,0,0.05); transition: transform 0.2s; }
+.card:hover { transform: translateY(-2px); box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+.tag { background: #e0f2fe; color: #0369a1; padding: 0.2rem 0.6rem; border-radius: 99px; font-size: 0.8rem; font-weight: bold; }
+.bloco { background: #f1f5f9; padding: 1rem; border-radius: 8px; margin-bottom: 1rem; border-left: 4px solid var(--primary); }
+.bloco img { max-width: 100%; border-radius: 6px; margin-bottom: 1rem; }
+.form-group { margin-bottom: 1.5rem; }
+.form-group label { display: block; margin-bottom: 0.5rem; font-weight: 600; }
+.form-group input, .form-group textarea { width: 100%; padding: 0.8rem; border: 1px solid var(--border); border-radius: 6px; }
+
+/* --- CONFIGURAÇÕES PARA O PDF (IMPRESSÃO) --- */
+@media print {
+    /* Esconde a barra de navegação, botões e outros elementos desnecessários no PDF */
+    .navbar, .botoes-acao, .search-bar {
+        display: none !important;
+    }
+
+    /* Ajusta o fundo para branco para economizar tinta/ficar limpo */
+    body {
+        background-color: white;
+        color: black;
+    }
+
+    /* Remove sombras e ajusta as bordas dos blocos para o PDF */
+    .bloco {
+        box-shadow: none;
+        border: 1px solid #ccc;
+        page-break-inside: avoid; /* Evita que um passo seja cortado na metade entre duas páginas */
+    }
+
+    .container {
+        margin: 0;
+        max-width: 100%;
+    }
+}

@@ -1,0 +1,19 @@
+# Base de dados (Não partilhe os seus dados e soluções reais)
+notas.db
+
+# Imagens de upload (Evita que o repositório fique gigante com os prints)
+static/uploads/*
+!static/uploads/.gitkeep
+
+# Ambientes virtuais Python
+venv/
+env/
+.env
+
+# Ficheiros compilados do Python
+__pycache__/
+*.pyc
+
+# Configurações de editores de código (como o VS Code)
+.vscode/
+.idea/

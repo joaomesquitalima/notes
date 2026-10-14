@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wiki - Soluções & Procedimentos</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/6.8.3/tinymce.min.js" referrerpolicy="origin"></script>
+<script>
+    const configEditor = {
+        selector: '.editor-rico',
+        menubar: false,
+        plugins: 'lists',
+        toolbar: 'undo redo | bold italic | blocks fontsize | bullist numlist',
+        height: 250
+    };
+    document.addEventListener("DOMContentLoaded", function() {
+        tinymce.init(configEditor);
+    });
+</script>
+
+</head>
+<body>
+    <nav class="navbar">
+        <h2>Base de Conhecimento</h2>
+        <div>
+            <a href="{{ url_for('index') }}">Início</a>
+            <a href="{{ url_for('temas') }}">Temas</a>
+            <a href="{{ url_for('criar_nota') }}" class="btn" style="background: #1e40af;">+ Nova Solução</a>
+        </div>
+    </nav>
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>

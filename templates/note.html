@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="cabecalho-nota" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+    <div>
+        <span class="tag">{{ nota.tag }}</span>
+        <h1 style="margin-top: 0.5rem;">{{ nota.titulo }}</h1>
+    </div>
+    <div class="botoes-acao">
+    <button onclick="window.print()" class="btn" style="background: #10b981; margin-right: 10px;">📄 Gerar PDF</button>
+    
+    <!-- Novo botão de Editar -->
+    <a href="{{ url_for('editar_nota', id=nota.id) }}" class="btn" style="background: #eab308; color: white; margin-right: 10px;">✏️ Editar</a>
+    
+    <a href="{{ url_for('deletar_nota', id=nota.id) }}" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja deletar?')">🗑️ Excluir</a>
+</div>
+</div>
+
+<div class="conteudo-nota">
+    {% for bloco in nota.blocos %}
+    <div class="bloco">
+        <h3>{{ bloco.titulo_bloco }}</h3>
+        {% if bloco.imagem %}
+            <br>
+            <img src="{{ url_for('static', filename='uploads/' + bloco.imagem) }}" alt="Ilustração do passo">
+        {% endif %}
+       <div style="margin-top: 1rem;">{{ bloco.conteudo|safe }}</div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Editar Solução</h2>
+<!-- O segredo está aqui no onsubmit -->
+<form method="POST" enctype="multipart/form-data" onsubmit="tinymce.triggerSave();" style="background: white; padding: 2rem; border-radius: 12px; margin-top: 1rem;">
+    <div class="form-group">
+        <label>Título Principal</label>
+        <input type="text" name="titulo" value="{{ nota.titulo }}" required>
+    </div>
+    <div class="form-group">
+        <label>Tema / Tag</label>
+        <input type="text" name="tag" value="{{ nota.tag }}" required>
+    </div>
+
+    <div id="blocos-container">
+        {% for bloco in nota.blocos %}
+        <div class="bloco-input" style="border: 1px solid #e2e8f0; padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+            <h4>Bloco {{ loop.index }}</h4>
+            <div class="form-group">
+                <label>Título do Passo</label>
+                <input type="text" name="titulo_bloco[]" value="{{ bloco.titulo_bloco }}" required>
+            </div>
+            <div class="form-group">
+                <label>Imagem Ilustrativa (Deixe vazio para manter a atual)</label>
+                {% if bloco.imagem %}
+                    <p style="font-size: 0.8rem; color: #0369a1; margin-bottom: 0.5rem;">📁 Imagem salva: {{ bloco.imagem }}</p>
+                {% endif %}
+                <input type="file" name="imagem[]" accept="image/*">
+                <input type="hidden" name="imagem_atual[]" value="{{ bloco.imagem or '' }}">
+            </div>
+            <div class="form-group">
+                <label>Conteúdo / Explicação</label>
+                <!-- A classe editor-rico precisa estar aqui -->
+                <textarea name="conteudo[]" class="editor-rico" rows="4">{{ bloco.conteudo }}</textarea>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <button type="button" class="btn" onclick="adicionarBloco()" style="background: #64748b; margin-bottom: 2rem;">+ Adicionar Novo Passo</button>
+    <br>
+    <button type="submit" class="btn">Salvar Alterações</button>
+</form>
+
+<script>
+    let contador = parseInt("{{ nota.blocos|length }}");
+    
+    function adicionarBloco() {
+        contador++;
+        const container = document.getElementById('blocos-container');
+        const html = `
+        <div class="bloco-input" style="border: 1px solid #e2e8f0; padding: 1rem; border-radius: 8px; margin-bottom: 1rem; margin-top: 1rem;">
+            <h4>Bloco ${contador}</h4>
+            <div class="form-group"><label>Título do Passo</label><input type="text" name="titulo_bloco[]" required></div>
+            <div class="form-group">
+                <label>Imagem Ilustrativa</label>
+                <input type="file" name="imagem[]" accept="image/*">
+                <input type="hidden" name="imagem_atual[]" value="">
+            </div>
+            <div class="form-group"><label>Conteúdo / Explicação</label><textarea name="conteudo[]" class="editor-rico" rows="4"></textarea></div>
+        </div>`;
+        container.insertAdjacentHTML('beforeend', html);
+        
+        // Inicia o editor visual no bloco que acabou de ser criado
+        tinymce.init(configEditor);
+    }
+</script>
+{% endblock %}

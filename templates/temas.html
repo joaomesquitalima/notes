@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+<form method="GET" action="{{ url_for('temas') }}" onsubmit="tinymce.triggerSave();">
+    <input type="text" name="q" class="search-bar" placeholder="Buscar em Temas..." value="{{ busca }}">
+</form>
+
+{% for tag, notas in notas_por_tag.items() %}
+    <h2 style="margin-bottom: 1rem; border-bottom: 2px solid var(--primary); padding-bottom: 0.5rem;">Tema: {{ tag }}</h2>
+    <div class="grid" style="margin-bottom: 3rem;">
+        {% for nota in notas %}
+        <div class="card">
+            <h3 style="margin: 0.5rem 0;"><a href="{{ url_for('ver_nota', id=nota.id) }}" style="text-decoration: none; color: inherit;">{{ nota.titulo }}</a></h3>
+        </div>
+        {% endfor %}
+    </div>
+{% endfor %}
+{% endblock %}
