@@ -4,7 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'chave_super_secreta_aqui'
+app.config['SECRET_KEY'] = '1982'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///notas.db'
 app.config['UPLOAD_FOLDER'] = 'static/uploads'
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024 # Máximo de 16MB por imagem
@@ -50,26 +50,16 @@ def criar_nota():
         db.session.add(nova_nota)
         db.session.commit()
         
-        # Processar blocos dinâmicos
         titulos_bloco = request.form.getlist('titulo_bloco[]')
         conteudos_bloco = request.form.getlist('conteudo[]')
-        imagens_bloco = request.files.getlist('imagem[]')
         
         for i in range(len(titulos_bloco)):
-            nome_imagem = None
-            if i < len(imagens_bloco) and imagens_bloco[i].filename != '':
-                arq = imagens_bloco[i]
-                nome_imagem = secure_filename(arq.filename)
-                arq.save(os.path.join(app.config['UPLOAD_FOLDER'], nome_imagem))
-                
-            # Prevenção contra o IndexError
             conteudo_seguro = conteudos_bloco[i] if i < len(conteudos_bloco) else ""
-                
             novo_bloco = Bloco(
                 nota_id=nova_nota.id,
                 titulo_bloco=titulos_bloco[i],
                 conteudo=conteudo_seguro,
-                imagem=nome_imagem
+                imagem=None # Removemos o upload antigo!
             )
             db.session.add(novo_bloco)
             
@@ -86,29 +76,17 @@ def editar_nota(id):
         nota.titulo = request.form['titulo']
         nota.tag = request.form['tag'].strip().title()
         
-        # Pega as listas enviadas pelo formulário
         titulos_bloco = request.form.getlist('titulo_bloco[]')
         conteudos_bloco = request.form.getlist('conteudo[]')
-        imagens_bloco = request.files.getlist('imagem[]')
         imagens_atuais = request.form.getlist('imagem_atual[]')
         
-        # Remove os blocos antigos do banco (as imagens continuam na pasta)
         for bloco in nota.blocos:
             db.session.delete(bloco)
         db.session.commit()
         
-        # Recria os blocos atualizados
         for i in range(len(titulos_bloco)):
-            # Mantém a imagem atual como padrão
-            nome_imagem = imagens_atuais[i] if i < len(imagens_atuais) else None
-            
-            # Se o usuário enviou uma imagem nova para este bloco, substitui
-            if i < len(imagens_bloco) and imagens_bloco[i].filename != '':
-                arq = imagens_bloco[i]
-                nome_imagem = secure_filename(arq.filename)
-                arq.save(os.path.join(app.config['UPLOAD_FOLDER'], nome_imagem))
-                
-            # Prevenção contra o IndexError
+            # Se a imagem for apagada pelo utilizador, ela vem vazia e guarda como None
+            nome_imagem = imagens_atuais[i] if i < len(imagens_atuais) and imagens_atuais[i] != '' else None
             conteudo_seguro = conteudos_bloco[i] if i < len(conteudos_bloco) else ""
                 
             novo_bloco = Bloco(

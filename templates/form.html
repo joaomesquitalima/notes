@@ -2,35 +2,18 @@
 {% block content %}
 <h2>Registrar Nova Solução</h2>
 <form method="POST" enctype="multipart/form-data" onsubmit="tinymce.triggerSave();" style="background: white; padding: 2rem; border-radius: 12px; margin-top: 1rem;">
-    <div class="form-group">
-        <label>Título Principal</label>
-        <input type="text" name="titulo" placeholder="Ex: Resolução de falha no servidor de arquivos" required>
-    </div>
-    <div class="form-group">
-        <label>Tema / Tag</label>
-        <input type="text" name="tag" placeholder="Ex: Infraestrutura" required>
-    </div>
+    <div class="form-group"><label>Título Principal</label><input type="text" name="titulo" required></div>
+    <div class="form-group"><label>Tema / Tag</label><input type="text" name="tag" required></div>
 
     <div id="blocos-container">
         <div class="bloco-input" style="border: 1px solid #e2e8f0; padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
             <h4>Bloco 1</h4>
-            <div class="form-group">
-                <label>Título do Passo</label>
-                <input type="text" name="titulo_bloco[]" required>
-            </div>
-            <div class="form-group">
-                <label>Imagem Ilustrativa (Opcional)</label>
-                <input type="file" name="imagem[]" accept="image/*">
-            </div>
-            <div class="form-group">
-                <label>Conteúdo / Explicação</label>
-                <textarea name="conteudo[]" class="editor-rico" rows="4"></textarea>
-            </div>
+            <div class="form-group"><label>Título do Passo</label><input type="text" name="titulo_bloco[]" required></div>
+            <div class="form-group"><label>Conteúdo / Explicação</label><textarea name="conteudo[]" class="editor-rico" rows="4"></textarea></div>
         </div>
     </div>
 
-    <button type="button" class="btn" onclick="adicionarBloco()" style="background: #64748b; margin-bottom: 2rem;">+ Adicionar Passo</button>
-    <br>
+    <button type="button" class="btn" onclick="adicionarBloco()" style="background: #64748b; margin-bottom: 2rem;">+ Adicionar Passo</button><br>
     <button type="submit" class="btn">Salvar Documentação</button>
 </form>
 
@@ -43,11 +26,9 @@
         <div class="bloco-input" style="border: 1px solid #e2e8f0; padding: 1rem; border-radius: 8px; margin-bottom: 1rem; margin-top: 1rem;">
             <h4>Bloco ${contador}</h4>
             <div class="form-group"><label>Título do Passo</label><input type="text" name="titulo_bloco[]" required></div>
-            <div class="form-group"><label>Imagem Ilustrativa (Opcional)</label><input type="file" name="imagem[]" accept="image/*"></div>
             <div class="form-group"><label>Conteúdo / Explicação</label><textarea name="conteudo[]" class="editor-rico" rows="4"></textarea></div>
         </div>`;
         container.insertAdjacentHTML('beforeend', html);
-        
         tinymce.init(configEditor);
     }
 </script>

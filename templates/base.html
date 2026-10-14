@@ -7,19 +7,24 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/6.8.3/tinymce.min.js" referrerpolicy="origin"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/6.8.3/tinymce.min.js" referrerpolicy="origin"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/6.8.3/tinymce.min.js" referrerpolicy="origin"></script>
 <script>
     const configEditor = {
         selector: '.editor-rico',
         menubar: false,
-        plugins: 'lists',
-        toolbar: 'undo redo | bold italic | blocks fontsize | bullist numlist',
-        height: 250
+        plugins: 'lists image',
+        /* Adicionamos alignleft aligncenter alignright na barra */
+        toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | blocks fontsize | bullist numlist | image',
+        paste_data_images: true,
+        height: 300,
+        /* Força a imagem a ficar no centro enquanto você edita */
+        content_style: "img { display: block; margin: 0 auto 1rem auto; max-width: 100%; height: auto; }"
     };
     document.addEventListener("DOMContentLoaded", function() {
         tinymce.init(configEditor);
     });
 </script>
-
 </head>
 <body>
     <nav class="navbar">
